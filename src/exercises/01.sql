@@ -6,7 +6,7 @@ from salaries s;
 select max(birth_date)
 from employees e;
 
--- Number of towns in Frace
+-- Number of towns in France
 select count(id)
 from towns;
 
