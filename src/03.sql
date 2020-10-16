@@ -53,7 +53,6 @@ on inf.codproduto = p.codproduto
 group by p.codproduto, p.nome
 order by codproduto;
 
-
 create view notasfaturas as
 select n.numnota, n.valortotal, p.nome, p.preco, inf.quantidade, (p.preco * inf.quantidade) as valorvendido from notafiscal n
 inner join itemnotafiscal inf
