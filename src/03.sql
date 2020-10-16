@@ -4,15 +4,13 @@ create table produto (
   preco money not null,
   qtdestoque int not null,
   primary key(codproduto)
-)
-go
+);
 
 create table notafiscal (
   numnota int not null,
   valortotal money not null,
   primary key(numnota)
-)
-go
+);
 
 create table itemnotafiscal (
   numnota int not null,
@@ -21,8 +19,7 @@ create table itemnotafiscal (
   primary key(numnota, codproduto),
   foreign key(numnota) references notafiscal,
   foreign key(codproduto) references produto
-)
-go
+);
 
 create table fatura (
   numfatura int not null,
@@ -32,65 +29,45 @@ create table fatura (
   numnota int not null,
   primary key(numfatura),
   foreign key(numnota) references notafiscal
-)
-go
+);
 
 create index ix_itemnotafiscal_numnota 
-on itemnotafiscal (numnota)
-go
+on itemnotafiscal (numnota);
 
 create index ix_itemnotafiscal_codproduto
-on itemnotafiscal (codproduto)
-go
+on itemnotafiscal (codproduto);
 
 create index ix_fatura_numnota 
-on fatura (numnota)
-go
+on fatura (numnota);
 
---2
-
---a)
-create view produtonuncavendidos
-as 
+create view produtonuncavendidos as 
 select p.codproduto, p.nome, p.qtdestoque from produto p
 left join itemnotafiscal inf
 on inf.codproduto = p.codproduto
-where inf.codproduto is null
-go
+where inf.codproduto is null;
 
---b)
-create view quantidadeprodutosvendidos
-as
+create view quantidadeprodutosvendidos as
 select p.codproduto, p.nome, sum(inf.quantidade) from produto p
 left join itemnotafiscal inf
 on inf.codproduto = p.codproduto
 group by p.codproduto, p.nome
-order by codproduto
-go
+order by codproduto;
 
---c)
-create view notasfaturas
-as
+
+create view notasfaturas as
 select n.numnota, n.valortotal, p.nome, p.preco, inf.quantidade, (p.preco * inf.quantidade) as valorvendido from notafiscal n
 inner join itemnotafiscal inf
 on inf.numnota = n.numnota
 inner join produto p
 on p.codproduto = inf.codproduto
-order by numnota
-go
+order by numnota;
 
---d)
-create view notasdefaturasaindanaopagas
-as
+create view notasdefaturasaindanaopagas as
 select nf.numnota, nf.valortotal, f.numfatura, f.dtvencimento, f.valor from notafiscal nf
 inner join fatura f
 on f.numnota = nf.numnota
-where f.dtpagamento is null
-go
+where f.dtpagamento is null;
 
---e)
-create view notasdefaturaspagas
-as
+create view notasdefaturaspagas as
 select nf.numnota, nf.valortotal from notafiscal nf 
-where nf.numnota not in (select numnota from fatura where dtpagamento is null)
-go
+where nf.numnota not in (select numnota from fatura where dtpagamento is null);
