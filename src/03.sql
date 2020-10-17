@@ -40,7 +40,7 @@ on itemnotafiscal (codproduto);
 create index ix_fatura_numnota 
 on fatura (numnota);
 
-create view produtonuncavendidos as 
+create view produtosnuncavendidos as 
 select p.codproduto, p.nome, p.qtdestoque from produto p
 left join itemnotafiscal inf
 on inf.codproduto = p.codproduto
