@@ -76,25 +76,30 @@ AND data <= '2020-01-05';
 delete veiculo
 where placa = 'AAA-5555';
 
-select * from motorista
+select * 
+from motorista
 where hora_entrada = '06:00:00'
 AND hora_saida = '13:00:00';
 
-select count(*) from ocorrencia
+select count(*) 
+from ocorrencia
 where pago = 1;
 
-select data, avg(preco) from ocorrencia
+select data, avg(preco) 
+from ocorrencia
 group by data;
 
 select nome from cliente
 where pago = 0;
 
-select o.placa, m.nome, o.data, o.distancia from ocorrencia o
+select o.placa, m.nome, o.data, o.distancia 
+from ocorrencia o
 inner join motorista m
 on m.codigo = o.cod_motorista
 order by data;
 
-select c.nome, m.nome, o.data, o.preco from ocorrencia o
+select c.nome, m.nome, o.data, o.preco 
+from ocorrencia o
 inner join motorista m 
 on m.codigo = o.cod_motorista
 inner join cliente c
