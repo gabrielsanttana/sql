@@ -9,11 +9,11 @@ as
 begin transaction
   insert into pessoa
   values (@codigo, @nome, @endereco, @telefone)
-  if @@rowcount > 0 /*Operacao realizada com sucesso*/
+  if @@rowcount > 0 -- Operacao realizada com sucesso
     begin  
       insert into cliente
       values(@codigo, @rg, @dtnasc)
-      if @@rowcount > 0 /*Operacao realizada com sucesso*/
+      if @@rowcount > 0 -- Operacao realizada com sucesso
         begin 
           commit transaction
           return 1
@@ -41,11 +41,11 @@ as
 begin transaction
   insert into pessoa
   values (@codigo, @nome, @endereco, @telefone)
-  if @@rowcount > 0 /*Operacao realizada com sucesso*/
+  if @@rowcount > 0 -- Operacao realizada com sucesso
     begin  
       insert into atendente
       values(@codigo, @salario, @comissao)
-      if @@rowcount > 0 /*Operacao realizada com sucesso*/
+      if @@rowcount > 0 -- Operacao realizada com sucesso
         begin 
           commit transaction
           return 1
@@ -70,12 +70,12 @@ as
 begin transaction
   insert into itemvenda 
   values (@codigo_venda,@cod_livro,@quantidade)
-  if @@rowcount > 0 /*Operacao efetuada com sucesso*/
+  if @@rowcount > 0 -- Operacao efetuada com sucesso
     begin
       update livro 
       set qtd_estoque = qtd_estoque - @quantidade
       where codigo = @cod_livro
-      if @@rowcount > 0 /*Operacao efetuada com sucesso*/
+      if @@rowcount > 0 -- Operacao efetuada com sucesso
         begin
           commit transaction
           return 1
