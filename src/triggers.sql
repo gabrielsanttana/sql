@@ -13,7 +13,6 @@ create index ixfaturapaga_notafiscal
 on faturapaga(numnota)
 go
 
--- a)
 create trigger inclusaoitemnota 
 on itemnotafiscal for insert
 as
@@ -45,7 +44,6 @@ begin
     rollback transaction
 end
 
--- b)
 create trigger exclusaoitemnota
 on itemnotafiscal for delete
 as
@@ -77,7 +75,6 @@ begin
     rollback transaction
 end
 
--- c)
 create trigger alteracaoitemnota
 on itemnotafiscal for update
 as
@@ -116,7 +113,6 @@ begin
     rollback transaction
 end
 
--- d)
 create trigger alteracaofatura
 on fatura for update
 as
