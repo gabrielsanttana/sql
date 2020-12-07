@@ -96,47 +96,47 @@ create procedure cadastrar_fornecedor_e_endereco
 @id_pessoa int = NULL OUTPUT
 as 
 begin transaction
-insert into endereco(rua, numero, bairro, cidade, estado)
-values (@rua, @numero, @bairro, @cidade, @estado);
-SET @id_endereco = SCOPE_IDENTITY()
-if @@rowcount > 0 -- Operacao realizada com sucesso
-  begin
-  insert into pessoa(email, id_endereco)
-  values(@email, @id_endereco)
-  SET @id_pessoa = SCOPE_IDENTITY()
-    if @@rowcount > 0 -- Operacao realizada com sucesso
+  insert into endereco(rua, numero, bairro, cidade, estado)
+  values (@rua, @numero, @bairro, @cidade, @estado);
+  SET @id_endereco = SCOPE_IDENTITY()
+  if @@rowcount > 0 -- Operacao realizada com sucesso
     begin
-    insert into fornecedor(id_pessoa, cnpj, razao_social, nome_fantasia)
-    values(@id_pessoa, @cnpj, @razao_social, @nome_fantasia)
-        if @@rowcount > 0 -- Operacao realizada com sucesso
-      begin
-          commit transaction
-          return 1
-        end
-    else
-      begin
-          rollback transaction
-          return 0
-      end
-    end
+	  insert into pessoa(email, id_endereco)
+	  values(@email, @id_endereco)
+	  SET @id_pessoa = SCOPE_IDENTITY()
+      if @@rowcount > 0 -- Operacao realizada com sucesso
+	    begin
+		  insert into fornecedor(id_pessoa, cnpj, razao_social, nome_fantasia)
+		  values(@id_pessoa, @cnpj, @razao_social, @nome_fantasia)
+          if @@rowcount > 0 -- Operacao realizada com sucesso
+		    begin
+	          commit transaction
+	          return 1
+	  	    end
+		  else
+		    begin
+	          rollback transaction
+	          return 0
+		    end
+	    end
+	  else
+	    begin
+	      rollback transaction
+	      return 0
+		end
+	end
   else
     begin
-      rollback transaction
-      return 0
-  end
-end
-else
-  begin
-  rollback transaction
-  return 0
-end
+	  rollback transaction
+	  return 0
+	end
 
 create procedure cadastrar_fornecedor_produto
 @id_fornecedor int,
 @id_produto int
 as
 insert into fornecedor_produto(id_fornecedor, id_produto)
-values (@id_fornecedor, @id_produto)
+values (@id_fornecedor, @id_produto);
 
 create procedure cadastrar_produto
 @nome char(50),
@@ -148,7 +148,7 @@ create procedure cadastrar_produto
 @codigo_barra char(13)
 as
 insert into produto(nome, volume, id_unidade_medida, id_categoria, preco, quantidade_estoque, codigo_barra)
-values(@nome, @volume, @id_unidade_medida, @id_categoria, @preco, @quantidade_estoque, @codigo_barra)
+values(@nome, @volume, @id_unidade_medida, @id_categoria, @preco, @quantidade_estoque, @codigo_barra);
 
 create procedure cadastrar_compra
 @data_compra datetime,
@@ -157,30 +157,39 @@ create procedure cadastrar_compra
 @quantidade int,
 @id_compra int = NULL
 as
-begin transaction
-insert into compra(valor_total, data_compra, id_cliente)
-values(0,@data_compra,@id_cliente)
-SET @id_compra = SCOPE_IDENTITY()
-if @@ROWCOUNT > 0
-  begin
-    insert into item_compra(id_compra, id_produto, quantidade)
-  values (@id_compra, @id_produto, @quantidade)
-  if @@ROWCOUNT > 0
-    begin
-      commit transaction
-    return 1
-      end
-  else
-    begin
-        rollback transaction
-      return 0
-    end
-  end
-else
-  begin
-    rollback transaction
-  return 0
-  end
+  begin transaction
+    insert into compra(valor_total,data_compra,id_cliente)
+	values(0,@data_compra,@id_cliente)
+	SET @id_compra = SCOPE_IDENTITY()
+	if @@ROWCOUNT > 0
+	  begin
+	    insert into item_compra(id_compra,id_produto,quantidade)
+		values (@id_compra,@id_produto,@quantidade)
+		if @@ROWCOUNT > 0
+		  begin
+		    commit transaction
+			return 1
+	      end
+		else
+		  begin
+	        rollback transaction
+		    return 0
+		  end
+	  end
+	else
+	  begin
+	    rollback transaction
+		return 0
+	  end
+go
+
+create procedure cadastrar_item_compra
+@id_compra int,
+@id_produto int,
+@quantidade int
+as
+  insert into item_compra(id_compra,id_produto,quantidade)
+  values (@id_compra,@id_produto,@quantidade)
 go
 
 create procedure cadastrar_item_compra
@@ -231,44 +240,44 @@ create procedure cadastrar_cliente_e_endereco
 @id_pessoa int = NULL OUTPUT
 as 
 begin transaction
-insert into endereco(rua, numero, bairro, cidade, estado)
-values (@rua, @numero, @bairro, @cidade, @estado);
-SET @id_endereco = SCOPE_IDENTITY()
-if @@rowcount > 0 -- Operacao realizada com sucesso
-  begin
-    insert into pessoa(email, id_endereco)
-    values (@email, @id_endereco)
-  SET @id_pessoa = SCOPE_IDENTITY()
-    if @@rowcount > 0 -- Operacao realizada com sucesso
-      begin  
-        insert into pessoa_fisica(id_pessoa, cpf, nome)
-        values(@id_pessoa, @cpf, @nome)
-        if @@rowcount > 0 -- Operacao realizada com sucesso
-          begin
-            insert into cliente(id_pessoa, rg, data_nascimento)
-            values(@id_pessoa, @rg, @data_nascimento)
-            if @@rowcount > 0 -- Operacao realizada com sucesso
-              begin
-                commit transaction
-                return 1
-              end
-            else
-              begin
-                rollback transaction
-                return 0
-              end
-          end
-        else
-          rollback transaction
-          return 0
-      end
-    else
-      rollback transaction
-      return 0
-  end
-else
-  rollback transaction
-  return 0
+  insert into endereco(rua, numero, bairro, cidade, estado)
+  values (@rua, @numero, @bairro, @cidade, @estado);
+  SET @id_endereco = SCOPE_IDENTITY()
+  if @@rowcount > 0 -- Operacao realizada com sucesso
+    begin
+      insert into pessoa(email, id_endereco)
+      values (@email, @id_endereco)
+	  SET @id_pessoa = SCOPE_IDENTITY()
+      if @@rowcount > 0 -- Operacao realizada com sucesso
+        begin  
+          insert into pessoa_fisica(id_pessoa, cpf, nome)
+          values(@id_pessoa, @cpf, @nome)
+          if @@rowcount > 0 -- Operacao realizada com sucesso
+            begin
+              insert into cliente(id_pessoa, rg, data_nascimento)
+              values(@id_pessoa, @rg, @data_nascimento)
+              if @@rowcount > 0 -- Operacao realizada com sucesso
+                begin
+                  commit transaction
+                  return 1
+                end
+              else
+                begin
+                  rollback transaction
+                  return 0
+                end
+            end
+          else
+            rollback transaction
+            return 0
+        end
+      else
+        rollback transaction
+        return 0
+    end
+  else
+    rollback transaction
+    return 0
 go
 
 create procedure cadastrar_funcionario_e_endereco
@@ -287,44 +296,44 @@ create procedure cadastrar_funcionario_e_endereco
 @id_pessoa int = NULL OUTPUT
 as 
 begin transaction
-insert into endereco(rua, numero, bairro, cidade, estado)
-values (@rua,@numero, @bairro, @cidade, @estado);
-SET @id_endereco = SCOPE_IDENTITY()
-if @@rowcount > 0 -- Operacao realizada com sucesso
-  begin
-    insert into pessoa(email, id_endereco)
-    values (@email, @id_endereco)
-  SET @id_pessoa = SCOPE_IDENTITY()
-    if @@rowcount > 0 -- Operacao realizada com sucesso
-      begin  
-        insert into pessoa_fisica(id_pessoa, cpf, nome)
-        values(@id_pessoa, @cpf, @nome)
-        if @@rowcount > 0 -- Operacao realizada com sucesso
-          begin
-            insert into funcionario(id_pessoa, id_cargo, salario, carteira_trabalho)
-            values(@id_pessoa, @id_cargo, @salario, @carteira_trabalho)
-            if @@rowcount > 0 -- Operacao realizada com sucesso
-              begin
-                commit transaction
-                return 1
-              end
-            else
-              begin
-                rollback transaction
-                return 0
-              end
-          end
-        else
-          rollback transaction
-          return 0
-      end
-    else
-      rollback transaction
-      return 0
-  end
-else
-  rollback transaction
-  return 0
+  insert into endereco(rua, numero, bairro, cidade, estado)
+  values (@rua, @numero, @bairro, @cidade, @estado);
+  SET @id_endereco = SCOPE_IDENTITY()
+  if @@rowcount > 0 -- Operacao realizada com sucesso
+    begin
+      insert into pessoa(email, id_endereco)
+      values (@email, @id_endereco)
+	  SET @id_pessoa = SCOPE_IDENTITY()
+      if @@rowcount > 0 -- Operacao realizada com sucesso
+        begin  
+          insert into pessoa_fisica(id_pessoa, cpf, nome)
+          values(@id_pessoa, @cpf, @nome)
+          if @@rowcount > 0 -- Operacao realizada com sucesso
+            begin
+              insert into funcionario(id_pessoa, id_cargo, salario, carteira_trabalho)
+              values(@id_pessoa, @id_cargo, @salario, @carteira_trabalho)
+              if @@rowcount > 0 -- Operacao realizada com sucesso
+                begin
+                  commit transaction
+                  return 1
+                end
+              else
+                begin
+                  rollback transaction
+                  return 0
+                end
+            end
+          else
+            rollback transaction
+            return 0
+        end
+      else
+        rollback transaction
+        return 0
+    end
+  else
+    rollback transaction
+    return 0
 go	
 
 create procedure cadastrar_funcionario_como_cliente

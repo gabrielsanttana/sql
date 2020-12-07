@@ -129,7 +129,6 @@ create table item_compra (
   quantidade int not null,
   primary key(id_produto, id_compra),
   foreign key(id_produto) references produto,
-  foreign key(id_compra) references compra
 )
 go
 
