@@ -1,87 +1,3 @@
-create view view_compra
-as
-select 
-pf.nome as 'Nome do cliente',
-c.valor_total as 'Valor total',
-pr.nome as 'Nome do produto',
-ic.quantidade as 'Quantidade',
-pr.preco as 'Preço',
-c.data_compra as 'Data da compra',
-concat(e.rua, ' ', e.numero, ', ', e.bairro, ', ', e.cidade, ' - ', e.estado) as 'Endereço'
-from compra c
-inner join item_compra ic
-on ic.id_compra = c.id
-inner join produto pr
-on ic.id_produto = pr.id
-inner join pessoa_fisica pf
-on c.id_cliente = pf.id_pessoa;
-
-create view view_cliente
-as
-select 
-pe.email as 'Email',
-pf.nome as 'Nome',
-pf.cpf as 'CPF',
-cli.rg as 'RG',
-cli.data_nascimento as 'Data de nascimento',
-concat(e.rua, ' ', e.numero, ', ', e.bairro, ', ', e.cidade, ' - ', e.estado) as 'Endereço'
-from pessoa pe 
-inner join pessoa_fisica pf
-on pe.id = pf.id_pessoa
-inner join cliente cli
-on pe.id = cli.id_pessoa
-inner join endereco e
-on pe.id_endereco = e.id;
-
-create view view_fornecedor
-as 
-select 
-pe.email as 'Email',
-f.cnpj as 'CNPJ',
-f.razao_social as 'Razão social',
-f.nome_fantasia as 'Nome fantasia',
-concat(e.rua, ' ', e.numero, ', ', e.bairro, ', ', e.cidade, ' - ', e.estado) as 'Endereço'
-from pessoa pe
-inner join fornecedor f 
-on pe.id = f.id_pessoa
-inner join endereco e
-on pe.id_endereco = e.id;
-
-create view view_funcionario
-as 
-select 
-pe.email as 'Email',
-pf.nome as 'Nome',
-pf.cpf as 'CPF',
-c.titulo as 'Cargo',
-f.carteira_trabalho as 'Carteira de trabalho',
-f.salario as 'Salário'
-from pessoa pe
-inner join pessoa_fisica pf
-on pe.id = pf.id_pessoa
-inner join funcionario f
-on pe.id = f.id_pessoa
-inner join cargo c
-on f.id_cargo = c.id
-inner join endereco e
-on pe.id_endereco = e.id;
-
-create view view_produto
-as
-select
-p.nome as 'Nome',
-p.volume as 'Volume',
-p.preco as 'Preço',
-p.quantidade_estoque as 'Quantidade em estoque',
-p.codigo_barra as 'Código de Barras',
-um.nome as 'Unidade de Medida',
-ca.nome as 'Categoria'
-from produto p 
-inner join unidade_medida um
-on p.id_unidade_medida = um.id
-inner join categoria ca
-on p.id_categoria = ca.id;
-
 create procedure cadastrar_fornecedor_e_endereco
 @email char(30),
 @cnpj char(18),
@@ -98,12 +14,12 @@ as
 begin transaction
   insert into endereco(rua, numero, bairro, cidade, estado)
   values (@rua, @numero, @bairro, @cidade, @estado);
-  SET @id_endereco = SCOPE_IDENTITY()
+  set @id_endereco = SCOPE_IDENTITY()
   if @@rowcount > 0 -- Operacao realizada com sucesso
     begin
 	  insert into pessoa(email, id_endereco)
 	  values(@email, @id_endereco)
-	  SET @id_pessoa = SCOPE_IDENTITY()
+	  set @id_pessoa = SCOPE_IDENTITY()
       if @@rowcount > 0 -- Operacao realizada com sucesso
 	    begin
 		  insert into fornecedor(id_pessoa, cnpj, razao_social, nome_fantasia)
@@ -157,30 +73,30 @@ create procedure cadastrar_compra
 @quantidade int,
 @id_compra int = NULL
 as
-  begin transaction
-    insert into compra(valor_total,data_compra,id_cliente)
-	values(0,@data_compra,@id_cliente)
-	SET @id_compra = SCOPE_IDENTITY()
-	if @@ROWCOUNT > 0
-	  begin
-	    insert into item_compra(id_compra,id_produto,quantidade)
-		values (@id_compra,@id_produto,@quantidade)
-		if @@ROWCOUNT > 0
-		  begin
-		    commit transaction
-			return 1
-	      end
-		else
-		  begin
-	        rollback transaction
-		    return 0
-		  end
-	  end
-	else
-	  begin
-	    rollback transaction
-		return 0
-	  end
+begin transaction
+  insert into compra(valor_total, data_compra, id_cliente)
+  values(0, @data_compra, @id_cliente)
+  set @id_compra = SCOPE_IDENTITY()
+  if @@ROWCOUNT > 0
+    begin
+      insert into item_compra(id_compra, id_produto, quantidade)
+    values (@id_compra, @id_produto, @quantidade)
+    if @@ROWCOUNT > 0
+      begin
+        commit transaction
+      return 1
+        end
+    else
+      begin
+          rollback transaction
+        return 0
+      end
+    end
+  else
+    begin
+      rollback transaction
+    return 0
+    end
 go
 
 create procedure cadastrar_item_compra
@@ -188,8 +104,8 @@ create procedure cadastrar_item_compra
 @id_produto int,
 @quantidade int
 as
-  insert into item_compra(id_compra,id_produto,quantidade)
-  values (@id_compra,@id_produto,@quantidade)
+  insert into item_compra(id_compra, id_produto, quantidade)
+  values (@id_compra, @id_produto, @quantidade)
 go
 
 create procedure cadastrar_item_compra
@@ -242,12 +158,12 @@ as
 begin transaction
   insert into endereco(rua, numero, bairro, cidade, estado)
   values (@rua, @numero, @bairro, @cidade, @estado);
-  SET @id_endereco = SCOPE_IDENTITY()
+  set @id_endereco = SCOPE_IDENTITY()
   if @@rowcount > 0 -- Operacao realizada com sucesso
     begin
       insert into pessoa(email, id_endereco)
       values (@email, @id_endereco)
-	  SET @id_pessoa = SCOPE_IDENTITY()
+	  set @id_pessoa = SCOPE_IDENTITY()
       if @@rowcount > 0 -- Operacao realizada com sucesso
         begin  
           insert into pessoa_fisica(id_pessoa, cpf, nome)
@@ -298,12 +214,12 @@ as
 begin transaction
   insert into endereco(rua, numero, bairro, cidade, estado)
   values (@rua, @numero, @bairro, @cidade, @estado);
-  SET @id_endereco = SCOPE_IDENTITY()
+  set @id_endereco = SCOPE_IDENTITY()
   if @@rowcount > 0 -- Operacao realizada com sucesso
     begin
       insert into pessoa(email, id_endereco)
       values (@email, @id_endereco)
-	  SET @id_pessoa = SCOPE_IDENTITY()
+	  set @id_pessoa = SCOPE_IDENTITY()
       if @@rowcount > 0 -- Operacao realizada com sucesso
         begin  
           insert into pessoa_fisica(id_pessoa, cpf, nome)
@@ -353,8 +269,21 @@ create procedure cadastrar_cliente_como_funcionario
 as 
 insert into funcionario(id_pessoa, id_cargo, salario, carteira_trabalho)
 values (@id_pessoa, @id_cargo, @salario, @carteira_trabalho)
+go
 
-create trigger trigger
-on table for type
-as 
-begin
+/*
+declare @id_pessoa int;
+exec cadastrar_cliente_e_endereco
+@email = 'gabriel@gmail.com',
+@nome = 'gabriel a',
+@cpf = '14785236951',
+@rg = '514512548',
+@data_nascimento = '10-05-1999',
+@rua = 'Rua São Vicente',
+@numero = 152,
+@bairro = 'Jardim das Copas',
+@cidade = 'Campo Belo',
+@estado = 'MG',
+@id_pessoa =  @id_pessoa OUTPUT;
+print @id_pessoa
+*/
