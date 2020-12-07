@@ -1,9 +1,8 @@
 drop table if exists item_compra, compra, endereco, produto, unidade_medida, categoria, cargo, cliente, funcionario, pessoa_fisica, fornecedor, pessoa, fornecedor_produto
 go
 
-
 create table endereco (
-  id int not null,
+  id int not null identity(1,1),
   rua char(40) not null,
   numero int not null,
   bairro char(40) not null,
@@ -14,11 +13,12 @@ create table endereco (
 go
 
 create table pessoa (
-  id int not null,
+  id int not null identity(1,1),
   email char(30) not null,
   id_endereco int not null,
   primary key(id),
-  foreign key(id_endereco) references endereco
+  foreign key(id_endereco) references endereco,
+  unique(id_endereco)
 )
 go
 
@@ -44,7 +44,7 @@ create table fornecedor (
 go
 
 create table unidade_medida (
-  id int not null,
+  id int not null identity(1,1),
   nome char(60) not null,
   abreviacao char(10) not null,
   primary key(id)
@@ -52,7 +52,7 @@ create table unidade_medida (
 go
 
 create table categoria (
-  id int not null,
+  id int not null identity(1,1),
   nome char(30) not null,
   descricao varchar(100) not null,
   primary key(id)
@@ -60,7 +60,7 @@ create table categoria (
 go
 
 create table produto (
-  id int not null,
+  id int not null identity(1,1),
   nome char(50) not null,
   volume real not null,
   id_unidade_medida int not null,
@@ -94,7 +94,7 @@ create table cliente (
 go
 
 create table cargo (
-  id int not null,
+  id int not null identity(1,1),
   titulo char(30) not null,
   descricao varchar(100) not null, 
   primary key(id)
@@ -114,7 +114,7 @@ create table funcionario (
 go
 
 create table compra (
-  id int not null,
+  id int not null identity(1,1),
   valor_total real not null,
   data_compra datetime not null,
   id_cliente int not null,
@@ -159,10 +159,6 @@ go
 
 create index ix_funcionario_cargo
 on funcionario (id_cargo)
-go
-
-create index ix_pessoa_endereco
-on pessoa (id_endereco)
 go
 
 create index ix_produto_unidade_medida

@@ -3,36 +3,36 @@ go
 
 insert into cargo
 values 
-(1, 'Operador(a) de Caixa', 'Responsável pela opereção dos caixas'),
-(2, 'Repositor(a)', 'Reponsável pela reposição dos produtos'),
-(3, 'Padeiro(a)', 'Responsável pela confeição dos produtos da padaria'),
-(4, 'Auxiliar de Limpeza', 'Responsável pela limpeza da loja'),
-(5, 'Gerente', 'Responsável pela administração da loja')
+('Operador(a) de Caixa', 'Responsável pela opereção dos caixas'),
+('Repositor(a)', 'Reponsável pela reposição dos produtos'),
+('Padeiro(a)', 'Responsável pela confeição dos produtos da padaria'),
+('Auxiliar de Limpeza', 'Responsável pela limpeza da loja'),
+('Gerente', 'Responsável pela administração da loja')
 go
 
 insert into endereco
 values
-(1, 'Rua Jundiaí', 1000, 'Parque das Nações', 'Campinas', 'SP'),
-(2, 'Rua Jundiaí', 1000, 'Parque das Peras', 'Campinas', 'SP'),
-(3, 'Rua Jundiaí', 1000, 'Parque das Maçãs', 'Campinas', 'SP'),
-(4, 'Rua Jundiaí', 1000, 'Parque das Uvas', 'Campinas', 'SP'),
-(5, 'Rua Jundiaí', 1000, 'Parque das Bananas', 'Campinas', 'SP')
+('Rua Jundiaí', 1000, 'Parque das Nações', 'Campinas', 'SP'),
+('Rua Jundiaí', 1000, 'Parque das Peras', 'Campinas', 'SP'),
+('Rua Jundiaí', 1000, 'Parque das Maçãs', 'Campinas', 'SP'),
+('Rua Jundiaí', 1000, 'Parque das Uvas', 'Campinas', 'SP'),
+('Rua Jundiaí', 1000, 'Parque das Bananas', 'Campinas', 'SP')
 go
 
 insert into pessoa
 values
-(1, 'gabriel@gmail.com',1),
-(2, 'maria@gmail.com',1),
-(3, 'daniel@gmail.com',1),
-(4, 'luana@gmail.com',1),
-(5, 'juliana@gmail.com',1),
-(6,'contato@sadia.com',2),
-(7,  'contato@perdigão.com',3),
-(8, 'contato@nestle.com',4),
-(9, 'contato@panco.com',5),
-(10, 'contato@ambev.com',5),
-(11, 'contato@jbs.com',5),
-(12, 'contato@ipê.com',5)
+('gabriel@gmail.com',1),
+('maria@gmail.com',1),
+('daniel@gmail.com',1),
+('luana@gmail.com',1),
+('juliana@gmail.com',1),
+('contato@sadia.com',2),
+('contato@perdigão.com',3),
+('contato@nestle.com',4),
+('contato@panco.com',5),
+('contato@ambev.com',5),
+('contato@jbs.com',5),
+('contato@ipê.com',5)
 go
 
 insert into fornecedor
@@ -48,33 +48,33 @@ go
 
 insert into categoria
 values
-(1, 'Padaria', 'Padaria'),
-(2, 'Limpeza', 'Limpeza'),
-(3, 'Utilidades Domésticas', 'Utilidades Domésticas'),
-(4, 'Higiene', 'Higiene'),
-(5, 'Bebidas', 'Bebidas'),
-(6, 'Carnes', 'Carnes'),
-(7, 'Matinais', 'Matinais'),
-(8, 'Frios e Laticínios', 'Frios e Laticínios')
+('Padaria', 'Padaria'),
+('Limpeza', 'Limpeza'),
+('Utilidades Domésticas', 'Utilidades Domésticas'),
+('Higiene', 'Higiene'),
+('Bebidas', 'Bebidas'),
+('Carnes', 'Carnes'),
+('Matinais', 'Matinais'),
+('Frios e Laticínios', 'Frios e Laticínios')
 go
 
 insert into unidade_medida
 values
-(1, 'Grama', 'g'),
-(2, 'Litro', 'L'),
-(3, 'Unidade', 'u')
+('Grama', 'g'),
+('Litro', 'L'),
+('Unidade', 'u')
 go
 
 insert into produto
 values
-(1, 'Pão de Forma Panco', 1, 1, 1, 3.0, 10, '1234567891012'),
-(2, 'Detergente Ipê Coco', 1, 2, 2, 1.50, 10, '1234567891013'),
-(3, 'Espremedor de Alho', 1, 3, 3, 1.50, 10, '1234567891014'),
-(4, 'Papel Higiênico', 1, 3, 4, 5.0, 10, '1234567891015'),
-(5, 'Cerveja Stella Artois', 2, 1, 5, 2.70, 10, '1234567891016'),
-(6, 'Peça de Picanha', 1, 1, 6, 80.0, 10, '1234567891018'),
-(7, 'Leite Líder', 1, 2, 7, 2.40, 10, '1234567891019'),
-(8, 'Mortadela', 1, 1, 8, 3.0, 10, '1234567891010')
+('Pão de Forma Panco', 1, 1, 1, 3.0, 10, '1234567891012'),
+('Detergente Ipê Coco', 1, 2, 2, 1.50, 10, '1234567891013'),
+('Espremedor de Alho', 1, 3, 3, 1.50, 10, '1234567891014'),
+('Papel Higiênico', 1, 3, 4, 5.0, 10, '1234567891015'),
+('Cerveja Stella Artois', 2, 1, 5, 2.70, 10, '1234567891016'),
+('Peça de Picanha', 1, 1, 6, 80.0, 10, '1234567891018'),
+('Leite Líder', 1, 2, 7, 2.40, 10, '1234567891019'),
+('Mortadela', 1, 1, 8, 3.0, 10, '1234567891010')
 go
 
 insert into fornecedor_produto
@@ -86,11 +86,11 @@ go
 
 insert into pessoa_fisica
 values
-(1, 44455576678, 'Gabriel Marques'),
-(2, 44455586678, 'Maria Marques'),
-(3, 44455596678, 'Daniel Marques'),
-(4, 44455516678, 'Luana Marques'),
-(5, 44455536678, 'Juliana Marques')
+(1,44455576678, 'Gabriel Marques'),
+(2,44455586678, 'Maria Marques'),
+(3,44455596678, 'Daniel Marques'),
+(4,44455516678, 'Luana Marques'),
+(5,44455536678, 'Juliana Marques')
 go
 
 insert into cliente
@@ -109,9 +109,9 @@ go
 
 insert into compra
 values
-(1, 100, '30-08-2016', 1),
-(2, 200, '30-09-2016', 2),
-(3, 300, '30-10-2016', 3)
+(100, '30-08-2016', 1),
+(200, '30-09-2016', 2),
+(300, '30-10-2016', 3)
 go
 
 insert into item_compra
